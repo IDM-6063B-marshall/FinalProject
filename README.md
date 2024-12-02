@@ -1,3 +1,17 @@
+# Milestone 2
+I’ve decided to pursue option 3 for my final project: creating a generative fractal drawing, which uses knobs to change certain parameters and influence the drawing. I did some initial research on fractals and plan for the base drawing to be a [Sierpinski Triangle](https://en.wikipedia.org/wiki/Sierpiński_triangle). This is one of the shapes discussed in Vihart’s videos that initially inspired my project. 
+
+From my research I think this is a good choice because it’s a relatively simple piece of code (though I think I will have to use a recursion) to which I can incorporate the more difficult element, the superformula. The superformula will add various parameters which can be mapped to the physical input of the Arduino and will allow the user to change what is being drawn. 
+
+In terms of sensors to use, I think I could do this with 2-3 potentiometers—I like the idea of using something with a continuous range of inputs rather than a binary on/off since that allows for more playing with the parameters. When I was looking into sensors the other option that came up was using a rotary encoder. My understanding of the difference between the two is that a rotary encoder allows for discrete incrementation with no upper limit on rotation. I will check out the design lab and maker space to see what sensors are available as well. 
+
+In terms of external libraries I think I would like to explore some of the [p5js drawing libraries](https://p5js.org/libraries/directory/#drawing) to add some visual interest to the code, for example [this one](https://github.com/SYM380/p5.pattern) that creates fill patterns. Another one that may be helpful is [p5.polar](https://github.com/liz-peng/p5.Polar) which creates symmetrical geometric patterns. 
+
+![screenshot](./assets/triangle1.png)
+![triangle](./assets/triangle2.png)
+![circuit](./assets/circuitdiagram1.png)
+![diagram](./assets/sysdiagram.png)
+
 # Milestone 1
 
 ## Option 1: 
