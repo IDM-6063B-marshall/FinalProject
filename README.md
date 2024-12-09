@@ -1,3 +1,10 @@
+# Milestone 3
+Working on this made my realize what problem I was having getting the serial port to work on HW13 so that was gratifying! I didn't have the library installed correctly in my index.html file I believe. I think the bones of my code are now in place: I can connect to the serial and control 3 variables of the Sierpinksi triangle with my potentiometers. However I think the variables are a little simple and for the final week of the project I plan to see if I can make them more interesting as well as use an additional P5JS library to add some cool colors or patterns. 
+
+![FSM](./assets/FSM1.png)
+![circuit diagram](./assets/circuitdiagram2.png)
+![circuit photo](./assets/circuitphoto.jpeg)
+
 # Milestone 2
 I’ve decided to pursue option 3 for my final project: creating a generative fractal drawing, which uses knobs to change certain parameters and influence the drawing. I did some initial research on fractals and plan for the base drawing to be a [Sierpinski Triangle](https://en.wikipedia.org/wiki/Sierpiński_triangle). This is one of the shapes discussed in the Vihart videos that initially inspired my project. I found these videos really captivating as a kid and I like the idea of recreating them in a way that allows the user to have direct control over the inputs, similar to what they'd have while drawing but with an immediate visual connection between input and output. 
 
