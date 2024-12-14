@@ -3,31 +3,46 @@ let connectButton;
 let readyToReceive;
 
 // Project variables
-let shapeOrientation = 0; 
-let sizeVar = 0.5;
-let recursionDepth = 0; // number of inner triangles
+let targetSizeVar = 0.5,
+  currentSizeVar = 0.5;
+let targetRecursionDepth = 0,
+  currentRecursionDepth = 0;
+let currentColorIndex = 0;
+
+const colors = [
+  [32, 236, 195],
+  [247, 39, 129],
+  [46, 41, 128],
+  [242, 244, 14],
+];
+
+let textureImage;
+
+function preload() {
+  textureImage = loadImage("./assets/texture.jpg");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
+  frameRate(30);
   mSerial = createSerial();
 
   connectButton = createButton("Connect To Serial");
-  connectButton.position(width / 2 - 70, height / 2); 
+  connectButton.position(width / 2 - 70, height / 2);
   connectButton.mousePressed(connectToSerial);
-  
+
   readyToReceive = false;
+  p5grain.setup();
 }
 
 function receiveSerial() {
-  let mLine = mSerial.readUntil("\n"); 
+  let mLine = mSerial.readUntil("\n");
   if (mLine) {
-    let values = mLine.trim().split(",").map(Number); 
+    let values = mLine.trim().split(",").map(Number);
     if (values.length === 3) {
-      // Map Arduino potentiometer values to project variables
-      shapeOrientation = map(values[0], 0, 4095, 0, 360); // 0-360 degrees
-      recursionDepth = int(map(values[1], 0, 4095, 1, 10)); 
-      sizeVar = map(values[2], 0, 4095, 0.1, 1); 
+      targetRecursionDepth = int(map(values[1], 0, 4095, 1, 15)); // Depth of triangles
+      targetSizeVar = map(values[2], 0, 4095, 0.1, 10); // Size multiplier
+      currentColorIndex = int(map(values[0], 0, 4095, 0, colors.length - 1)); //Color cycling
     }
   }
   readyToReceive = true;
@@ -42,25 +57,58 @@ function connectToSerial() {
 }
 
 function draw() {
-  background(255);
+  background(0);
 
-  // Center canvas and rotate shape
-  push();
-  translate(width / 2, height / 2);
-  rotate(radians(shapeOrientation));
+  // Lerp helps animation be less jerky
+  currentRecursionDepth = lerp(
+    currentRecursionDepth,
+    targetRecursionDepth,
+    0.1
+  );
+  currentSizeVar = lerp(currentSizeVar, targetSizeVar, 0.1);
 
-  // Adjust size
-  let adjustedSize = 700 * sizeVar;
+  //Some of this code was from attempting a tile effect with multiple Sierpinski triangles
+  //The potentiometer at A0 now controls color cycling instead
+  let adjustedSize = 750 * currentSizeVar;
+  let spacing = adjustedSize; 
+  let rows = ceil(sqrt(1)); 
+  let cols = 1; 
 
-  // Draw Sierpinski triangle
-  drawSierpinski(-adjustedSize / 2, adjustedSize * sqrt(3) / 4, adjustedSize, recursionDepth);
+  // Center the grid of tiles
+  let startX = (width - cols * spacing) / 2 + spacing / 2;
+  let startY = (height - rows * spacing) / 2 + spacing / 2;
 
-  pop();
+  // Set the current color from the potentiometer value
+  let [r, g, b] = colors[currentColorIndex];
 
-  // Handle serial communication
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      // Set stroke color from the list
+      stroke(r, g, b);
+      fill(0);
+      let flip = (i + j) % 2 === 1;
+
+      push();
+      translate(startX + j * spacing, startY + i * spacing);
+      if (flip) {
+        scale(1, -1); // Flip upside-down
+      }
+      drawSierpinski(
+        -adjustedSize / 2,
+        (adjustedSize * sqrt(3)) / 4,
+        adjustedSize,
+        int(currentRecursionDepth)
+      );
+      pop();
+    }
+
+    textureOverlay(textureImage, { animate: true });
+    
+  }
+
   if (mSerial.opened() && readyToReceive) {
     mSerial.clear();
-    mSerial.write(0xAB);
+    mSerial.write(0xab);
     readyToReceive = false;
   }
 
@@ -70,14 +118,13 @@ function draw() {
 }
 
 function drawSierpinski(x, y, l, depth) {
-//borrowed some logic from https://editor.p5js.org/hanxyn888@gmail.com/sketches/pMGvcy3Ue
-  if (depth === 0 || l < 2) return; 
+  if (depth === 0 || l < 2) return;
 
   // Draw main triangle
-  triangle(x, y, x + l / 2, y - l * sqrt(3) / 2, x + l, y);
+  triangle(x, y, x + l / 2, y - (l * sqrt(3)) / 2, x + l, y);
 
-  // Recursive calls for smaller triangles
+  // Recursion for inner triangles
   drawSierpinski(x, y, l / 2, depth - 1);
   drawSierpinski(x + l / 2, y, l / 2, depth - 1);
-  drawSierpinski(x + l / 4, y - (l / 2) * sqrt(3) / 2, l / 2, depth - 1);
+  drawSierpinski(x + l / 4, y - ((l / 2) * sqrt(3)) / 2, l / 2, depth - 1);
 }

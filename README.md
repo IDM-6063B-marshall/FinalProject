@@ -1,3 +1,20 @@
+# Milestone 4 / Final
+For the final version of this project, I changed my code in a few ways. The potentiometer at A0 originally controlled the shapeOrientation variable and rorated the triangle/canvas. I felt this was the least interesting and vital element of the code so I experimented with a few alternatives. I tried a tiling effect with multiple Sierpinski triangles mapped to the potentiometer value but it made the flickering effect kind of unbearable. I added framecount and some interpolation to try to address this but it was still too much (although both made the overall sketch much smoother!). Instead I decided to draw inspiratin from some cool fabric I found online when googling "retro triangles" and have the potentiometer cycle through a fixed color palette on a black background. The final result is one triangle which the user can smoothly zoom in and out of, controlling the number of fractals within it as well as the color scheme. In keeping with the retro theme, I added the external p5.grain library to create a textured overlay although I think it's only visible when you're zoomed in to the triangle. 
+
+The final mechanism consists of three potentiometers which control the color of the triangle, the level of recursion, and its size. The Arduino functions as the input and the sketch as the output. Below you can find my diagrams as well as some inspiration pictures. 
+
+Overall this was a fun project. The mathematical element of the code reminded me of some of our early discussions about algorithmic thinking and I feel that the fractals are evocative of our readings on early computer art. I also feel that I captured for myself the feelings that the original Vihart videos inspired in me as a kid; I can remember trying to draw the tiniest triangles possible and controlling the "zoom" (really the size) of the triangle and the number of inner triangles felt like that. 
+
+I had my roommate test the mechanism. 
+
+![diagram](./assets/sysdiagram.png)
+![FSM](./assets/FSM1.png)
+![circuit diagram](./assets/circuitdiagram2.png)
+![youtube](./assets/infinitedoodles.png)
+![triangle](./assets/triangle2.png)
+![colors] (./assets/colors.png)
+
+
 # Milestone 3
 Working on this made my realize what problem I was having getting the serial port to work on HW13 so that was gratifying! I didn't have the library installed correctly in my index.html file I believe. I think the bones of my code are now in place: I can connect to the serial and control 3 variables of the Sierpinksi triangle with my potentiometers. However I think the variables are a little simple and for the final week of the project I plan to see if I can make them more interesting as well as use an additional P5JS library to add some cool colors or patterns. 
 
