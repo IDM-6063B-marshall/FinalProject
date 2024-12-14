@@ -14,7 +14,7 @@ Overall this was a fun project. The mathematical element of the code reminded me
 ![circuit diagram](./assets/circuitdiagram2.png)
 ![youtube](./assets/infinitedoodles.png)
 ![triangle](./assets/triangle2.png)
-![colors] (./assets/colors.png)
+![colors](./assets/colors.png)
 
 
 # Milestone 3
